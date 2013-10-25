@@ -1,0 +1,10 @@
+Question Management
+ - Add Question Difficulty Field
+ 
+ Applicant Exam
+ - Randomization must be set by periods, not on every exam generation
+ - Add a timer widget
+ - Add Ongoing Exam Retrieval Functionality; The ability for testers to retrieve lost Exam Session due to unforseen circumstances such as power outages, hardware breakdown, etc.
+ 
+ Exam Reports
+ - Additional Report Types

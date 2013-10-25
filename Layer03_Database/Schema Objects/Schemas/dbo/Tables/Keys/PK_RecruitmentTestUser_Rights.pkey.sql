@@ -1,0 +1,3 @@
+﻿ALTER TABLE [dbo].[RecruitmentTestUser_Rights]
+    ADD CONSTRAINT [PK_RecruitmentTestUser_Rights] PRIMARY KEY CLUSTERED ([RecruitmentTestUser_RightsID] ASC) WITH (ALLOW_PAGE_LOCKS = ON, ALLOW_ROW_LOCKS = ON, PAD_INDEX = OFF, IGNORE_DUP_KEY = OFF, STATISTICS_NORECOMPUTE = OFF);
+

@@ -1,0 +1,116 @@
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Web;
+using System.Web.UI;
+using System.Web.UI.WebControls;
+using Layer01_Common;
+using Layer01_Common.Common;
+using Layer01_Common.Objects;
+using Layer01_Common_Web;
+using Layer01_Common_Web.Common;
+using Layer01_Common_Web.Objects;
+using Layer01_Common_Web_Telerik;
+using Layer01_Common_Web_Telerik.Common;
+using Layer01_Common_Web_Telerik.Objects;
+using Layer02_Objects;
+using Layer02_Objects._System;
+using Layer02_Objects.Modules_Base;
+using Layer02_Objects.Modules_Base.Abstract;
+using Layer02_Objects.Modules_Objects;
+using WebApplication_Exam.Base;
+using Telerik.Web.UI;
+using System.Data;
+
+namespace WebApplication_Exam.Page
+{
+    public partial class User_Org : ClsBaseMain_Page
+    {
+        #region _Variables
+
+        ClsUser ClsUser;
+
+        protected const String CnsObjID = "CnsObjID";
+
+        #endregion
+
+        #region _EventHandlers
+
+        protected override void Page_Load(object sender, EventArgs e)
+        {
+            this.Master.Setup(false, true, Layer02_Constants.eSystem_Modules.User, true);
+            base.Page_Load(sender, e);
+            
+            this.ClsUser = new ClsUser();
+
+            this.UserGrid.pGrid.ItemCommand += new GridCommandEventHandler(pGrid_ItemCommand);
+            this.ListFilter.EvFiltered += new UserControl.Control_Filter.DsFiltered(ListFilter_EvFiltered);
+
+            if (!this.IsPostBack) { this.SetupPage(); }
+        }
+
+        void ListFilter_EvFiltered(ClsQueryCondition Qc)
+        { this.UserGrid.RebindGrid(Qc); }
+
+        void pGrid_ItemCommand(object sender, GridCommandEventArgs e)
+        {
+            Int64 Key = 0;
+
+            // Get the ID for the row to select or delete
+            if (e.CommandName.ToUpper() == "SELECT" || e.CommandName.ToUpper() == "DELETE")
+            {
+                //Key = Methods.Convert_Int64(this.UserGrid.pGrid.MasterTableView.Items[e.Item.ItemIndex].GetDataKeyValue("RecruitmentTestUserID").ToString());
+                Key = this.UserGrid.GetKey(e.Item.ItemIndex);
+            }
+
+            switch (e.CommandName)
+            {
+                case "Select":
+                    this.Response.Redirect(@"~/Page/User_Details.aspx?ID=" + Key);
+                    break;
+
+                case "Delete":
+                    ClsKeys ClsKey = new ClsKeys();
+                    ClsKey.Add("RecruitmentTestUserID", Convert.ToInt64(Key));
+
+                    this.ClsUser.Load(ClsKey);
+                    this.ClsUser.Delete();
+                    this.UserGrid.RebindGrid();
+
+                    break;
+            }
+        }
+
+        #endregion
+
+        #region _Methods
+
+        void SetupPage()
+        {
+            //UserGrid.pGrid.PageSize = 5;
+
+            List<ClsBindGridColumn_Web_Telerik> UserList_Column = new List<ClsBindGridColumn_Web_Telerik>();
+
+            ClsBindGridColumn_Web_Telerik RedirectColumn = new ClsBindGridColumn_Web_Telerik("", "", 50, "", Layer01_Constants.eSystem_Lookup_FieldType.FieldType_HyperLink);
+            RedirectColumn.mFieldText = ">>";
+            RedirectColumn.mFieldNavigateUrl_Text = this.ResolveUrl("~/Page/User_Details.aspx?ID={0}");
+            RedirectColumn.mFieldNavigateUrl_Field = "RecruitmentTestUserID";
+            UserList_Column.Add(RedirectColumn);
+
+            UserList_Column.Add(new ClsBindGridColumn_Web_Telerik("Name", "Name", 150));
+            UserList_Column.Add(new ClsBindGridColumn_Web_Telerik("UserType_Desc", "Type", 150));
+
+            ClsBindGridColumn_Web_Telerik DeleteColumn = new ClsBindGridColumn_Web_Telerik("", "", 100, "", Layer01_Constants.eSystem_Lookup_FieldType.FieldType_Button);
+            DeleteColumn.mCommandName = "Delete";
+            DeleteColumn.mFieldText = "Delete";
+            UserList_Column.Add(DeleteColumn);
+
+            UserGrid.pGrid.ClientSettings.ClientEvents.OnCommand = "Grid_OnDeleteCommand";
+            UserGrid.Setup_WithRequery(this.Master.pCurrentUser, this.ClsUser, UserList_Column, "RecruitmentTestUserID", true, true);
+
+            this.ListFilter.Setup(this.pCurrentUser, new List<ClsBindGridColumn>(UserList_Column), this.ClsUser.List_Empty(), this.UserGrid.pAjaxPanel);
+        }
+        
+        #endregion
+    }
+}

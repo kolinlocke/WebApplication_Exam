@@ -1,0 +1,3 @@
+﻿ALTER TABLE [dbo].[System_Lookup_Details]
+    ADD CONSTRAINT [PK_System_Lookup_Details] PRIMARY KEY CLUSTERED ([System_Lookup_DetailsID] ASC, [System_LookupID] ASC) WITH (ALLOW_PAGE_LOCKS = ON, ALLOW_ROW_LOCKS = ON, PAD_INDEX = OFF, IGNORE_DUP_KEY = OFF, STATISTICS_NORECOMPUTE = OFF);
+

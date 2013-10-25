@@ -1,0 +1,42 @@
+﻿<%@ Page Title="" Language="C#" MasterPageFile="~/Master/Main.Master" CodeBehind="User_Org.aspx.cs" Inherits="WebApplication_Exam.Page.User_Org" %>
+<%@ Register Src="~/UserControl/Control_GridList.ascx" TagName="GridList" TagPrefix="Uc" %>
+<%@ Register Src="~/UserControl/Control_Filter.ascx"  TagName="Filter" TagPrefix="Uc" %>
+<asp:Content ID="Content1" ContentPlaceHolderID="ContentPlaceHolder_Title" runat="server">
+    Exam | User List
+</asp:Content>
+<asp:Content runat="server" ContentPlaceHolderID="ContentPlaceHolder_ModuleTitle" ID="Content_Title">
+    User List
+</asp:Content>
+<asp:Content ID="Content2" ContentPlaceHolderID="ContentPlaceHolder_Module" runat="server">
+    <script type="text/javascript">
+        function Grid_OnDeleteCommand(Sender, Args) {
+            var Command = Args.get_commandName();
+            var ItemIndex = Args.get_commandArgument();
+
+            switch (Command) {
+                case "Delete":
+                    {
+                        if (!window.confirm("Are you sure you want to delete this user?")) {
+                            Args.set_cancel(true);
+                        }
+
+                        break;
+                    }
+            }
+        }
+    </script>
+    <div class="section" style="text-align: right;">
+        <input type="button" value="+ Add New User" onclick="location.href = 'User_Details.aspx';"
+            style="width: 150px;" />
+    </div>
+    <br />
+    <div>
+        <Uc:Filter ID="ListFilter" runat="server" />
+        <Uc:GridList ID="UserGrid" runat="server" />
+    </div>
+    <br />
+    <br />
+    <div style="text-align: right;">
+        <input type="button" value="Go back" onclick="location.href = 'Default.aspx';" style="width: 120px;" />
+    </div>
+</asp:Content>
