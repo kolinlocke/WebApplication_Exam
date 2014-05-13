@@ -1,0 +1,47 @@
+﻿<%@ Master Language="C#" MasterPageFile="~/Master/Main.Master" CodeBehind="Details.master.cs" Inherits="WebApplication_Exam.Master.Details" %>
+<%@ Register Assembly="Telerik.Web.UI" Namespace="Telerik.Web.UI" TagPrefix="telerik" %>
+<asp:Content ID="Content1" ContentPlaceHolderID="ContentPlaceHolder_Title" runat="server">
+    <asp:ContentPlaceHolder ID="ContentPlaceHolder_Title" runat="server">
+    </asp:ContentPlaceHolder>
+</asp:Content>
+<asp:Content runat="server" ContentPlaceHolderID="ContentPlaceHolder_ModuleTitle" ID="Content_Title">
+    <asp:ContentPlaceHolder runat="server" ID="ContentPlaceHolder_ModuleTitle">
+    </asp:ContentPlaceHolder>
+</asp:Content>
+<asp:Content ID="Content2" ContentPlaceHolderID="ContentPlaceHolder_Module" runat="server">
+    <script type="text/javascript" src="../Scripts/Js_ModuleRequired.js"></script>
+    <div>
+        <asp:Panel ID="Panel_Details" runat="server">
+            <asp:ContentPlaceHolder ID="ContentPlaceHolder_Module" runat="server">
+            </asp:ContentPlaceHolder>
+        </asp:Panel>
+    </div>
+    <br />
+    <div>
+        <table width="100%" cellpadding="0" cellspacing="0">
+            <tr>
+                <td>
+                    <table cellpadding="0" cellspacing="0">
+                        <tr>
+                            <td>
+                                <asp:Button ID="Btn_Save" runat="server" Text="Save" Width="80px" />
+                            </td>
+                            <td style="width:10px;">
+                            </td>
+                            <td>
+                                <asp:Button ID="Btn_Delete" runat="server" Text="Delete" Width="80px" />
+                            </td>
+                        </tr>
+                    </table>                    
+                </td>
+                <td align="right">
+                    <asp:Button ID="Btn_Back" runat="server" Text="Back" Width="80px" />
+                </td>
+            </tr>
+        </table>
+    </div>
+    <div>
+        <asp:ContentPlaceHolder ID="ContentPlaceHolder_Button" runat="server">
+        </asp:ContentPlaceHolder>
+    </div>
+</asp:Content>

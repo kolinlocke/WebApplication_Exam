@@ -25,11 +25,11 @@ using Layer02_Objects._System;
 using Layer02_Objects.Modules_Objects;
 using DataObjects_Framework;
 using DataObjects_Framework.Common;
-using DataObjects_Framework.Base;
+using DataObjects_Framework.BaseObjects;
 using DataObjects_Framework.DataAccess;
 using DataObjects_Framework.Connection;
 using DataObjects_Framework.Objects;
-using WebApplication_Exam.Base;
+using WebApplication_Exam._Base;
 using Telerik.Web.UI;
 
 namespace WebApplication_Exam.Page
@@ -115,7 +115,7 @@ namespace WebApplication_Exam.Page
                     Sb.Append("Selected Contributor(s) have been approved." + "<br />");
 
                     if (IsEmailFailed)
-                    { Sb.Append("Email sending to contributors has failed. Plase contact your system administrator." + "<br />"); }
+                    { Sb.Append("Email sending to contributors has failed. Please contact your system administrator." + "<br />"); }
 
                     this.Show_EventMsg(Sb.ToString(), ClsBaseMain_Master.eStatus.Event_Info);
                 }
@@ -134,7 +134,7 @@ namespace WebApplication_Exam.Page
                 { break; }
             }
 
-            ClsBaseObjs Obj_Users = this.mObj.Approve();
+            BaseObjs Obj_Users = this.mObj.Approve();
 
             //[-]
 
@@ -147,7 +147,7 @@ namespace WebApplication_Exam.Page
                 Sc.EnableSsl = true;
                 Sc.Credentials = new NetworkCredential("Pti.ExamManagement@gmail.com", "Administrator");
 
-                foreach (ClsBaseObjs.Str_Obj Obj in Obj_Users.pList_Obj)
+                foreach (BaseObjs.Str_Obj Obj in Obj_Users.pList_Obj)
                 {
                     ClsUser Obj_User = (ClsUser)Obj.Obj;                    
                     string Email = Do_Methods.Convert_String(Obj_User.pDr["Email"]);

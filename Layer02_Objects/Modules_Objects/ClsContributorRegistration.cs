@@ -10,14 +10,14 @@ using Layer02_Objects;
 using Layer02_Objects._System;
 using DataObjects_Framework;
 using DataObjects_Framework.Common;
-using DataObjects_Framework.Base;
+using DataObjects_Framework.BaseObjects;
 using DataObjects_Framework.DataAccess;
 using DataObjects_Framework.Connection;
 using DataObjects_Framework.Objects;
 
 namespace Layer02_Objects.Modules_Objects
 {
-    public class ClsContributorRegistration : ClsBase
+    public class ClsContributorRegistration : Base
     {
         #region _Variables
 
@@ -38,22 +38,22 @@ namespace Layer02_Objects.Modules_Objects
 
         #region _Methods
 
-        public override DataTable List(ClsQueryCondition Condition, string Sort = "", int Top = 0, int Page = 0)
+        public override DataTable List(QueryCondition Condition, string Sort, long Top, int Page)
         {
             if (Condition == null)
             { Condition = this.mDa.CreateQueryCondition(); }
             Condition.Add("IsApproved", "0", typeof(bool).ToString(), "0");
 
-            this.mDt_List = base.List(Condition, Sort, Top, Page );
+            this.mDt_List = base.List(Condition, Sort, Top, Page);
             this.mDt_List.Columns.Add("IsSelected", typeof(bool));
             this.AddRequired(this.mDt_List);
             return this.mDt_List;
         }
 
         public override DataTable List(string Condition = "", string Sort = "")
-        { return this.List((ClsQueryCondition)null, Sort); }
+        { return this.List((QueryCondition)null, Sort); }
 
-        public override long List_Count(ClsQueryCondition Condition = null)
+        public override long List_Count(QueryCondition Condition = null)
         {
             if (Condition == null)
             { Condition = this.mDa.CreateQueryCondition(); }
@@ -72,9 +72,9 @@ namespace Layer02_Objects.Modules_Objects
             return base.Save(Da);
         }
 
-        public ClsBaseObjs Approve()
+        public BaseObjs Approve()
         {
-            ClsBaseObjs Rv = new ClsBaseObjs();
+            BaseObjs Rv = new BaseObjs();
             
             DateTime ServerDate = DateTime.Now;
             this.mDa.Connect();

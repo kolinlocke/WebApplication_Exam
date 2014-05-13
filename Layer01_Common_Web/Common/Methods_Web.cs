@@ -15,7 +15,7 @@ using Layer01_Common_Web.Common;
 using Layer01_Common_Web.Objects;
 using DataObjects_Framework;
 using DataObjects_Framework.Common;
-using DataObjects_Framework.Base;
+using DataObjects_Framework.BaseObjects;
 using DataObjects_Framework.DataAccess;
 using DataObjects_Framework.Connection;
 using DataObjects_Framework.Objects;
@@ -30,7 +30,7 @@ namespace Layer01_Common_Web.Common
             List<ClsBindGridColumn_Web> List_Gc = new List<ClsBindGridColumn_Web>();
             ClsBindGridColumn_Web Gc;
 
-            DataTable Dt_Def = new ClsBase().pDa.GetQuery(@"udf_System_BindDefinition('" + Name + "')", "", "", "OrderIndex");
+            DataTable Dt_Def = Do_Methods_Query.GetQuery(@"udf_System_BindDefinition('" + Name + "')", "", "", "OrderIndex");
             foreach (DataRow Dr in Dt_Def.Rows)
             {
                 Gc = new ClsBindGridColumn_Web(

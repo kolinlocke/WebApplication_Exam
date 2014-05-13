@@ -1,27 +1,24 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Text;
 using System.Web;
 using System.Web.UI.WebControls;
-using System.Text;
-using Microsoft.VisualBasic;
+using DataObjects_Framework;
+using DataObjects_Framework.BaseObjects;
+using DataObjects_Framework.Common;
+using DataObjects_Framework.Connection;
+using DataObjects_Framework.DataAccess;
+using DataObjects_Framework.Objects;
 using Layer01_Common;
 using Layer01_Common.Common;
 using Layer01_Common.Objects;
-//using Layer02_Objects.Modules_Base;
-//using Layer02_Objects.Modules_Base.Abstract;
-//using Layer02_Objects.Modules_Base.Objects;
-using Layer02_Objects._System;
 using Layer01_Common_Web;
 using Layer01_Common_Web.Common;
-using DataObjects_Framework;
-using DataObjects_Framework.Common;
-using DataObjects_Framework.Base;
-using DataObjects_Framework.DataAccess;
-using DataObjects_Framework.Connection;
-using DataObjects_Framework.Objects;
+using Layer02_Objects._System;
+using Microsoft.VisualBasic;
 
-namespace WebApplication_Exam.Base
+namespace WebApplication_Exam._Base
 {
     public abstract class ClsBaseMain_Master : System.Web.UI.MasterPage
     {

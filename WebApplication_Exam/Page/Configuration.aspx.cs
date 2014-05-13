@@ -27,13 +27,15 @@ using Layer02_Objects._System;
 using Layer02_Objects.Modules_Objects;
 using DataObjects_Framework;
 using DataObjects_Framework.Common;
-using DataObjects_Framework.Base;
+using DataObjects_Framework.BaseObjects;
 using DataObjects_Framework.DataAccess;
 using DataObjects_Framework.Connection;
 using DataObjects_Framework.Objects;
 using WebApplication_Exam;
-using WebApplication_Exam.Base;
+using WebApplication_Exam._Base;
 using Telerik.Web.UI;
+using System.Collections;
+using DataObjects_Framework.PreparedQueryObjects;
 
 namespace WebApplication_Exam.Page
 {
@@ -41,7 +43,7 @@ namespace WebApplication_Exam.Page
     {
         #region _Variables
 
-        ClsBase mBase;
+        Base mBase;
         Interface_DataAccess mDa;
 
         public const string CnsExam_NoItemsTotal = Layer02_Constants.CnsExam_NoItemsTotal;
@@ -63,7 +65,7 @@ namespace WebApplication_Exam.Page
 
         public Configuration()
         {
-            this.mBase = new ClsBase();
+            this.mBase = new Base();
             this.mDa = this.mBase.pDa;
         }
 
@@ -133,7 +135,10 @@ namespace WebApplication_Exam.Page
         }
 
         void Btn_Save_Click(object sender, EventArgs e)
-        { this.Save(); }
+        { 
+            this.Save();
+            this.Save_ReloadPage();
+        }
 
         #endregion
 
@@ -160,6 +165,33 @@ namespace WebApplication_Exam.Page
 
             this.SetupPage_Selection();
             this.SetupPage_ControlAttributes();
+        }
+
+        void SetupPage_Redirected()
+        {
+            if (!(this.Session[Layer01_Constants_Web.CnsSession_TmpObj] is Hashtable))
+            { return; }
+
+            Hashtable Ht = null;
+            try { Ht = (Hashtable)this.Session[Layer01_Constants_Web.CnsSession_TmpObj]; }
+            catch { return; }
+
+            if (Ht == null)
+            { return; }
+
+            this.Session.Remove(Layer01_Constants_Web.CnsSession_TmpObj);
+            this.SetupPage_Redirected(Ht);
+        }
+
+        void SetupPage_Redirected(Hashtable Ht)
+        {
+            bool IsSave = false;
+            //IsSave = Do_Methods.Con
+            try { IsSave = (bool)Ht["IsSave"]; }
+            catch { }
+
+            if (IsSave) 
+            { this.Show_EventMsg("Configuration has been saved.", ClsBaseMain_Master.eStatus.Event_Info); }
         }
 
         void SetupPage_Selection()
@@ -200,16 +232,17 @@ namespace WebApplication_Exam.Page
                 this.mDt_DefaultContributor_RightsIDs.Columns.Add("RightsID", typeof(Int64));
                 this.mDt_DefaultContributor_RightsIDs.Columns.Add("Name", typeof(string));
 
-                ClsPreparedQuery Pq = new ClsPreparedQuery((ClsConnection_SqlServer)Cn);
+                //PreparedQuery Pq = new ClsPreparedQuery((ClsConnection_SqlServer)Cn);
+                PreparedQuery Pq = Do_Methods.CreatePreparedQuery();
                 Pq.pQuery = "Select Name From RecruitmentTestRights Where RecruitmentTestRightsID = @RightsID";
-                Pq.Add_Parameter("RightsID", SqlDbType.BigInt);
+                Pq.Add_Parameter("RightsID", Do_Constants.eParameterType.Long);
                 Pq.Prepare();
 
                 string[] mArrTmp = Do_Methods.Convert_String(Da.GetSystemParameter(Cn, CnsExam_DefaultContributor_RightsIDs)).Split(',');
                 foreach (string Tmp in mArrTmp)
                 {
                     Int64 RightsID = Do_Methods.Convert_Int64(Tmp);
-                    Pq.pParameters["RightsID"].Value = RightsID;
+                    Pq.pParameters.GetParameter("RightsID").Value = RightsID;
                     DataTable InnerDt = Pq.ExecuteQuery().Tables[0];
                     if (InnerDt.Rows.Count > 0)
                     { Do_Methods.AddDataRow(ref this.mDt_DefaultContributor_RightsIDs, new string[] { "RightsID", "Name" }, new object[] { RightsID, InnerDt.Rows[0][0] }); }
@@ -244,7 +277,7 @@ namespace WebApplication_Exam.Page
         void Save()
         {
             if (this.mIsReadOnly)
-            { throw new ClsCustomException("Access Denied."); }
+            { throw new CustomException("Access Denied."); }
 
             Interface_DataAccess Da = this.mDa;
             try
@@ -274,6 +307,22 @@ namespace WebApplication_Exam.Page
             { Da.Close(); }
 
             this.Show_EventMsg("Configuration has been saved.", ClsBaseMain_Master.eStatus.Event_Info);
+        }
+
+        void Save_ReloadPage()
+        {
+            Hashtable Ht = this.Save_ReloadPage_Prepare();
+            this.Session[Layer01_Constants_Web.CnsSession_TmpObj] = Ht;
+
+            String Url = this.Request.Url.AbsolutePath;
+            this.Response.Redirect(Url);
+        }
+
+        Hashtable Save_ReloadPage_Prepare()
+        {
+            Hashtable Ht = new Hashtable();
+            Ht.Add("IsSave", true);
+            return Ht;
         }
 
         #endregion

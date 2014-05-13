@@ -5,7 +5,7 @@ using System.Web;
 using System.Web.UI;
 using System.Web.UI.WebControls;
 using WebApplication_Exam;
-using WebApplication_Exam.Base;
+using WebApplication_Exam._Base;
 using Layer01_Common;
 using Layer01_Common.Common;
 using Layer01_Common.Objects;
@@ -13,7 +13,7 @@ using Layer02_Objects;
 using Layer02_Objects._System;
 using DataObjects_Framework;
 using DataObjects_Framework.Common;
-using DataObjects_Framework.Base;
+using DataObjects_Framework.BaseObjects;
 using DataObjects_Framework.DataAccess;
 using DataObjects_Framework.Connection;
 using DataObjects_Framework.Objects;
@@ -64,7 +64,7 @@ namespace WebApplication_Exam.Page
                     if (!CurrentUser.CheckAccess(Layer02_Constants.eSystem_Modules.Sys_Login, Layer02_Constants.eAccessLib.eAccessLib_Access))
                     {
                         CurrentUser.Logoff();
-                        throw new ClsCustomException("You have no access."); 
+                        throw new CustomException("You have no access."); 
                     }
 
                     this.Response.Redirect("~/Page/Default.aspx");

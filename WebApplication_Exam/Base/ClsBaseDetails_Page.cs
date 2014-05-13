@@ -17,12 +17,12 @@ using Layer01_Common_Web;
 using Layer01_Common_Web.Common;
 using DataObjects_Framework;
 using DataObjects_Framework.Common;
-using DataObjects_Framework.Base;
+using DataObjects_Framework.BaseObjects;
 using DataObjects_Framework.DataAccess;
 using DataObjects_Framework.Connection;
 using DataObjects_Framework.Objects;
 
-namespace WebApplication_Exam.Base
+namespace WebApplication_Exam._Base
 {
     public abstract class ClsBaseDetails_Page : System.Web.UI.Page
     {
@@ -40,7 +40,7 @@ namespace WebApplication_Exam.Base
             this.Load += new EventHandler(Page_Load); 
         }
 
-        public void Setup(Layer02_Constants.eSystem_Modules System_ModulesID, ClsBase Obj_Base, string NoAccessMessage = "")
+        public void Setup(Layer02_Constants.eSystem_Modules System_ModulesID, Base Obj_Base, string NoAccessMessage = "")
         { this.Master.Setup(System_ModulesID, Obj_Base, NoAccessMessage); }
 
         #endregion
@@ -82,13 +82,15 @@ namespace WebApplication_Exam.Base
 
         void SetupPage_Redirected()
         {
-            if (!(this.Session[Layer01_Constants_Web.CnsSession_TmpObj] is Hashtable)) { return; }
+            if (!(this.Session[Layer01_Constants_Web.CnsSession_TmpObj] is Hashtable)) 
+            { return; }
 
             Hashtable Ht = null;
             try { Ht = (Hashtable)this.Session[Layer01_Constants_Web.CnsSession_TmpObj]; }
             catch { return; }
 
-            if (Ht == null) { return; }
+            if (Ht == null) 
+            { return; }
 
             this.Session.Remove(Layer01_Constants_Web.CnsSession_TmpObj);
             this.SetupPage_Redirected(Ht);
@@ -136,10 +138,10 @@ namespace WebApplication_Exam.Base
         protected virtual void Delete()
         {
             Int64 KeyID = this.pObj_Base.pID;
-            ClsKeys ClsKey = new ClsKeys();
+            Keys ClsKey = new Keys();
             ClsKey.Add(this.pObj_Base.pHeader_TableKey, KeyID);
 
-            ClsBase Obj_Base = (ClsBase)Activator.CreateInstance(this.pObj_Base.GetType(), new object[] { this.pCurrentUser });
+            Base Obj_Base = (Base)Activator.CreateInstance(this.pObj_Base.GetType(), new object[] { this.pCurrentUser });
             Obj_Base.Load(ClsKey);
             Obj_Base.Delete();
         }
@@ -175,7 +177,7 @@ namespace WebApplication_Exam.Base
             get { return (ClsBaseDetails_Master)base.Master; }
         }
 
-        public ClsBase pObj_Base
+        public Base pObj_Base
         {
             get { return this.Master.pObj_Base; }
         }

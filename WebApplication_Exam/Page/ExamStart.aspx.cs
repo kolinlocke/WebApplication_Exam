@@ -7,7 +7,7 @@ using System.Web;
 using System.Web.UI;
 using System.Web.UI.WebControls;
 using WebApplication_Exam;
-using WebApplication_Exam.Base;
+using WebApplication_Exam._Base;
 using Layer01_Common;
 //using Layer01_Common.Connection;
 using Layer01_Common.Common;
@@ -21,7 +21,7 @@ using Layer02_Objects.Modules_Objects;
 using Layer02_Objects.Modules_Objects.Exam;
 using DataObjects_Framework;
 using DataObjects_Framework.Common;
-using DataObjects_Framework.Base;
+using DataObjects_Framework.BaseObjects;
 using DataObjects_Framework.DataAccess;
 using DataObjects_Framework.Connection;
 using DataObjects_Framework.Objects;
@@ -59,8 +59,7 @@ namespace WebApplication_Exam.Page
 
         void SetupPage()
         {
-            ClsBase Base = new ClsBase();
-            DataTable Dt = Base.pDa.GetQuery("LookupCategory", "", "", "[Desc]");
+            DataTable Dt = Do_Methods_Query.GetQuery("LookupCategory", "", "", "[Desc]");
             Methods_Web.BindCombo(ref this.Cbo_Category, Dt, "LookupCategoryID", "Desc");
         }
 

@@ -7,6 +7,7 @@ using System.Web.Security;
 using System.Web.SessionState;
 using Layer01_Common.Objects;
 using Layer01_Common_Web.Common;
+using DataObjects_Framework.Common;
 
 namespace Layer03_Website
 {
@@ -29,7 +30,9 @@ namespace Layer03_Website
             //Layer01_Common.Common.Global_Variables.gConnection_SharePoint_Password = WebConfig["SharePointPassword"];
 
             DataObjects_Framework.Common.Do_Globals.gSettings.pConnectionString = WebConfig["SqlServer_ConnectionString"];
-            DataObjects_Framework.Common.Do_Globals.gSettings.pDataAccessType = DataObjects_Framework.Common.Do_Constants.eDataAccessType.DataAccess_SqlServer;
+            //DataObjects_Framework.Common.Do_Globals.gSettings.pDataAccessType = DataObjects_Framework.Common.Do_Constants.eDataAccessType.DataAccess_SqlServer;
+            DataObjects_Framework.Common.Do_Globals.gSettings.pDataAccessType = DataObjects_Framework.Common.Do_Constants.eDataAccessType.DataAccess_WCF;
+            Do_Globals.gSettings.pWcfAddress = @"http://localhost:4802/WcfService.svc";
             DataObjects_Framework.Common.Do_Globals.gSettings.pUseSoftDelete = true;
         }
 

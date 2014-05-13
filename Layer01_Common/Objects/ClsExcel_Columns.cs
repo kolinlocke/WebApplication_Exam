@@ -9,7 +9,7 @@ using Layer01_Common;
 using Layer01_Common.Common;
 using DataObjects_Framework;
 using DataObjects_Framework.Common;
-using DataObjects_Framework.Base;
+using DataObjects_Framework.BaseObjects;
 
 namespace Layer01_Common.Objects
 {
@@ -58,7 +58,7 @@ namespace Layer01_Common.Objects
         public void GetColumns(string Name)
         {
             DataTable Dt =
-                new ClsBase().pDa.GetQuery(
+                Do_Methods_Query.GetQuery(
                     @"udf_System_BindDefinition('" + Name + @"')"
                     , ""
                     , "IsNull(IsHidden,0) = 0"

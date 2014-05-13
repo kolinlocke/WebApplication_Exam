@@ -27,12 +27,12 @@ using Layer02_Objects._System;
 using Layer02_Objects.Modules_Objects;
 using DataObjects_Framework;
 using DataObjects_Framework.Common;
-using DataObjects_Framework.Base;
+using DataObjects_Framework.BaseObjects;
 using DataObjects_Framework.DataAccess;
 using DataObjects_Framework.Connection;
 using DataObjects_Framework.Objects;
 using WebApplication_Exam;
-using WebApplication_Exam.Base;
+using WebApplication_Exam._Base;
 using Telerik.Web.UI;
 
 namespace WebApplication_Exam.Page
@@ -202,10 +202,10 @@ namespace WebApplication_Exam.Page
 
         void SetupPage()
         {
-            DataTable Dt_Category = this.mObj.pDa.GetQuery("LookupCategory", "", "", "[Desc]");
+            DataTable Dt_Category = Do_Methods_Query.GetQuery("LookupCategory", "", "", "[Desc]");
             Methods_Web.BindCombo(ref this.Cbo_Category, Dt_Category, "LookupCategoryID", "Desc");
 
-            DataTable Dt_QuestionType = this.mObj.pDa.GetQuery("LookupQuestionType", "", "", "LookupQuestionTypeID");
+            DataTable Dt_QuestionType = Do_Methods_Query.GetQuery("LookupQuestionType", "", "", "LookupQuestionTypeID");
             Methods_Web.BindCombo(ref this.Cbo_QuestionType, Dt_QuestionType, "LookupQuestionTypeID", "Desc");
 
             //[-]
@@ -262,7 +262,7 @@ namespace WebApplication_Exam.Page
                             || this.pCurrentUser.CheckAccess(this.pSystem_ModulesID, Layer02_Constants.eAccessLib.eAccessLib_View)
                         )
                     )
-                { throw new ClsCustomException(this.pNoAccessMessage); }
+                { throw new CustomException(this.pNoAccessMessage); }
                 this.pIsReadOnly = true;
             }
 
@@ -369,8 +369,6 @@ namespace WebApplication_Exam.Page
             WebControl Wc;
             bool IsValid = true;
 
-            Interface_DataAccess Da = this.mObj.pDa;
-
             Wc = this.RadEditor_Question;
             if (Methods_Web.ControlValidation(
                 ref Sb_Msg
@@ -381,12 +379,12 @@ namespace WebApplication_Exam.Page
                 , (this.RadEditor_Question.Content != "")
                 , "Question is required." + "<br />"))
             {
-                ClsQueryCondition Qc = this.mObj.pDa.CreateQueryCondition();
+                QueryCondition Qc = Do_Methods.CreateQueryCondition();
                 Qc.Add("Question", "= " + this.RadEditor_Question.Content, typeof(string).ToString());
                 Qc.Add("IsDeleted", "0", typeof(bool).ToString(), "0");
                 Qc.Add("RecruitmentTestQuestionsID", "<> " + this.mObj.pID.ToString(), typeof(Int64).ToString(), "0");
 
-                DataTable Dt = Da.GetQuery("RecruitmentTestQuestions", "", Qc);
+                DataTable Dt = Do_Methods_Query.GetQuery("RecruitmentTestQuestions", "", Qc);
                 bool IsValid_Question = !(Dt.Rows.Count > 0);
 
                 Wc = this.RadEditor_Question;
@@ -413,7 +411,7 @@ namespace WebApplication_Exam.Page
 
             if (IsApprove)
             {
-                Int64 NoRequiredAnswers = Do_Methods.Convert_Int64(Da.GetSystemParameter(Configuration.CnsExam_NoRequiredAnswers));
+                Int64 NoRequiredAnswers = Do_Methods.Convert_Int64(Do_Methods_Query.GetSystemParameter(Configuration.CnsExam_NoRequiredAnswers));
                 if ((this.mObj as ClsQuestion).pDt_QuestionAnswer.Rows.Count < NoRequiredAnswers)
                 {
                     IsValid = false;

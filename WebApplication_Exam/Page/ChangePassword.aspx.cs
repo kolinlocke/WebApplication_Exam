@@ -27,12 +27,12 @@ using Layer02_Objects._System;
 using Layer02_Objects.Modules_Objects;
 using DataObjects_Framework;
 using DataObjects_Framework.Common;
-using DataObjects_Framework.Base;
+using DataObjects_Framework.BaseObjects;
 using DataObjects_Framework.DataAccess;
 using DataObjects_Framework.Connection;
 using DataObjects_Framework.Objects;
 using WebApplication_Exam;
-using WebApplication_Exam.Base;
+using WebApplication_Exam._Base;
 
 namespace WebApplication_Exam.Page
 {
@@ -88,7 +88,7 @@ namespace WebApplication_Exam.Page
         void Save()
         {
             ClsUser Obj_User = new ClsUser();
-            ClsKeys Key = new ClsKeys();
+            Keys Key = new Keys();
             Key.Add(Obj_User.pHeader_TableKey, this.Master.pCurrentUser.pUserID);
             Obj_User.Load(Key);
 

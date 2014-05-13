@@ -14,10 +14,10 @@ using Layer02_Objects;
 //using Layer02_Objects.Modules_Base.Abstract;
 //using Layer02_Objects.Modules_Base.Objects;
 using Layer02_Objects._System;
-using WebApplication_Exam.Base;
+using WebApplication_Exam._Base;
 using DataObjects_Framework;
 using DataObjects_Framework.Common;
-using DataObjects_Framework.Base;
+using DataObjects_Framework.BaseObjects;
 using DataObjects_Framework.DataAccess;
 using DataObjects_Framework.Connection;
 using DataObjects_Framework.Objects;
@@ -50,18 +50,15 @@ namespace WebApplication_Exam.Page
             DataTable Dt_Menu;
             if (this.pCurrentUser.pIsSystemAdmin)
             {
-                ClsBase Base = new ClsBase();
-                ClsQueryCondition Qc = Base.pDa.CreateQueryCondition();
+                QueryCondition Qc = Do_Methods.CreateQueryCondition();
                 Qc.Add("IsHidden", "0", typeof(bool).Name, "0");
-                Dt_Menu = Base.pDa.GetQuery("uvw_System_Modules", "", Qc, "Parent_OrderIndex, OrderIndex");
+                Dt_Menu = Do_Methods_Query.GetQuery("uvw_System_Modules", "", Qc, "Parent_OrderIndex, OrderIndex");
             }
             else
             {
-                List<Do_Constants.Str_Parameters> List_Sp = new List<Do_Constants.Str_Parameters>();
-                List_Sp.Add(new Do_Constants.Str_Parameters("UserID", this.pCurrentUser.pUserID));
-                
-                ClsConnection_SqlServer Cn = new ClsConnection_SqlServer();
-                Dt_Menu = Cn.ExecuteQuery("usp_System_Modules_Load", List_Sp).Tables[0];
+                List<QueryParameter> Params = new List<QueryParameter>();
+                Params.Add(new QueryParameter("UserID", this.pCurrentUser.pUserID));
+                Dt_Menu = Do_Methods_Query.ExecuteQuery("usp_System_Modules_Load", Params).Tables[0];
             }
 
             this.Panel_Menu.Controls.Add(new Literal() { Text = "<ul>" });

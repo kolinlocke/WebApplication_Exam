@@ -6,7 +6,7 @@ using System.Data;
 using Microsoft.VisualBasic;
 using DataObjects_Framework;
 using DataObjects_Framework.Common;
-using DataObjects_Framework.Base;
+using DataObjects_Framework.BaseObjects;
 using DataObjects_Framework.DataAccess;
 using DataObjects_Framework.Connection;
 using DataObjects_Framework.Objects;
@@ -15,7 +15,7 @@ using Layer02_Objects._System;
 
 namespace Layer02_Objects.Modules_Objects
 {
-    public class ClsQuestionAnswer : ClsBase_List
+    public class ClsQuestionAnswer : Base_List
     {
         #region _Variables
 
@@ -27,7 +27,7 @@ namespace Layer02_Objects.Modules_Objects
 
         public ClsQuestionAnswer()
         {
-            ClsQueryCondition Qc = base.pDa.CreateQueryCondition();
+            QueryCondition Qc = Do_Methods.CreateQueryCondition();
             Qc.Add("IsDeleted", "= 0", typeof(bool).ToString(), "0");
             this.Setup("RecruitmentTestQuestionAnswers", "uvw_RecruitmentTestQuestionAnswers", Qc);
 
@@ -53,7 +53,7 @@ namespace Layer02_Objects.Modules_Objects
                 
         #region _Methods
 
-        public override void Load(ClsKeys Keys, ClsBase Obj_Parent = null)
+        public override void Load(Keys Keys, Base Obj_Parent = null)
         {
             base.Load(Keys, Obj_Parent);
 

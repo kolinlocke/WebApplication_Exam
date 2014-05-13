@@ -1,0 +1,49 @@
+﻿<%@ Master Language="C#" MasterPageFile="~/Master/Main.Master" AutoEventWireup="false" CodeBehind="List.master.cs" Inherits="WebApplication_Exam.Master.List" %>
+<%@ Register Src="~/UserControl/Control_GridList.ascx" TagName="GridList" TagPrefix="Uc" %>
+<%@ Register Src="~/UserControl/Control_Filter.ascx" TagName="Filter" TagPrefix="Uc" %>
+<asp:Content ID="Content1" ContentPlaceHolderID="ContentPlaceHolder_Title" runat="server">
+    <asp:ContentPlaceHolder ID="ContentPlaceHolder_Title" runat="server">
+    </asp:ContentPlaceHolder>
+</asp:Content>
+<asp:Content ID="Content2" runat="server" ContentPlaceHolderID="ContentPlaceHolder_ModuleTitle">
+    <asp:ContentPlaceHolder ID="ContentPlaceHolder_ModuleTitle" runat="server">
+    </asp:ContentPlaceHolder>
+</asp:Content>
+<asp:Content ID="Content3" ContentPlaceHolderID="ContentPlaceHolder_Module" runat="server">
+    <script type="text/javascript">
+        function Grid_OnCommand(Sender, Args) {
+            var Command = Args.get_commandName();
+            //var ItemIndex = Args.get_commandArgument();
+            var AjaxPanel = $find('<%= this.GridList.pAjaxPanel.ClientID %>');
+            AjaxPanel.set_enableAJAX(true);
+
+            switch (Command) {
+                case "Delete":
+                    if (!window.confirm("Are you sure you want to delete this record?")) {
+                        Args.set_cancel(true);
+                    }
+                    else {
+                        AjaxPanel.set_enableAJAX(false);
+                    }
+                    break;
+            }
+        }
+    </script>
+    <div class="section" align="right">
+        <asp:Button ID="Btn_New" runat="server" Text="New" Width="80px" />
+    </div>
+    <div style="width:100%">
+        <Uc:Filter ID="FilterList" runat="server" />
+        <Uc:GridList ID="GridList" runat="server" />
+    </div>
+    <br />
+    <table width="100%">
+        <tr>
+            <td align="right">
+                <input type="button" value="Go back" onclick="location.href = 'Default.aspx';" style="width: 80px;" />
+            </td>
+        </tr>
+    </table>
+</asp:Content>
+
+

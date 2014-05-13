@@ -27,12 +27,12 @@ using Layer02_Objects._System;
 using Layer02_Objects.Modules_Objects;
 using DataObjects_Framework;
 using DataObjects_Framework.Common;
-using DataObjects_Framework.Base;
+using DataObjects_Framework.BaseObjects;
 using DataObjects_Framework.DataAccess;
 using DataObjects_Framework.Connection;
 using DataObjects_Framework.Objects;
 using WebApplication_Exam;
-using WebApplication_Exam.Base;
+using WebApplication_Exam._Base;
 
 namespace WebApplication_Exam.Page
 {
@@ -53,9 +53,9 @@ namespace WebApplication_Exam.Page
         }
 
         protected override void Page_Load(object sender, EventArgs e)
-        {            
+        {
             base.Page_Load(sender, e);
-            
+
             this.Btn_Register.Click += new EventHandler(Btn_Register_Click);
             this.Btn_Back.Click += new EventHandler(Btn_Back_Click);
         }
@@ -108,14 +108,11 @@ namespace WebApplication_Exam.Page
                 , (this.Txt_UserName.Text != "")
                 , "User Name is required." + "<br />"))
             {
-                ClsBase Base = new ClsBase();
-                Interface_DataAccess Da = Base.pDa;
-                ClsQueryCondition Qc = Da.CreateQueryCondition();
-
+                QueryCondition Qc = Do_Methods.CreateQueryCondition();
                 Qc.Add("Name", " = " + this.Txt_UserName.Text, typeof(string).ToString());
                 Qc.Add("IsDeleted", "0", typeof(bool).ToString(), "0");
 
-                DataTable Dt = Da.GetQuery("RecruitmentTestUser", "", Qc);
+                DataTable Dt = Do_Methods_Query.GetQuery("RecruitmentTestUser", "", Qc);
                 bool IsValid_User = !(Dt.Rows.Count > 0);
 
                 Wc = this.Txt_UserName;

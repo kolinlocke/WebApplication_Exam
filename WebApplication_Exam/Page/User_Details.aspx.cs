@@ -1,40 +1,19 @@
 ﻿using System;
-using System.Collections;
 using System.Collections.Generic;
-using System.Linq;
+using System.Data;
 using System.Text;
 using System.Text.RegularExpressions;
-using System.Data;
-using System.Web;
-using System.Web.Security;
-using System.Web.UI;
 using System.Web.UI.WebControls;
-using System.Web.UI.WebControls.WebParts;
-using System.Web.UI.HtmlControls;
-using Layer01_Common;
-using Layer01_Common.Common;
-using Layer01_Common.Objects;
-using Layer01_Common_Web;
-using Layer01_Common_Web.Common;
-using Layer01_Common_Web.Objects;
-using Layer01_Common_Web_Telerik;
-using Layer01_Common_Web_Telerik.Common;
-using Layer01_Common_Web_Telerik.Objects;
-using Layer02_Objects;
-using Layer02_Objects._System;
-//using Layer02_Objects.DataAccess;
-//using Layer02_Objects.Modules_Base;
-//using Layer02_Objects.Modules_Base.Abstract;
-using Layer02_Objects.Modules_Objects;
-using DataObjects_Framework;
 using DataObjects_Framework.Common;
-using DataObjects_Framework.Base;
 using DataObjects_Framework.DataAccess;
-using DataObjects_Framework.Connection;
 using DataObjects_Framework.Objects;
-using WebApplication_Exam;
-using WebApplication_Exam.Base;
+using Layer01_Common.Common;
+using Layer01_Common_Web.Common;
+using Layer01_Common_Web_Telerik.Objects;
+using Layer02_Objects._System;
+using Layer02_Objects.Modules_Objects;
 using Telerik.Web.UI;
+using WebApplication_Exam._Base;
 
 namespace WebApplication_Exam.Page
 {
@@ -162,13 +141,12 @@ namespace WebApplication_Exam.Page
                 , (this.Txt_UserName.Text != "")
                 , "User Name already exists. Please choose a different User Name." + "<br />"))
             {
-                Interface_DataAccess Da = this.mObj.pDa;
-                ClsQueryCondition Qc = this.mObj.pDa.CreateQueryCondition();
+                QueryCondition Qc = Do_Methods.CreateQueryCondition();
                 Qc.Add("Name", " = " + this.Txt_UserName.Text, typeof(string).ToString());
                 Qc.Add("IsDeleted", "0", typeof(bool).ToString(), "0");
                 Qc.Add("RecruitmentTestUserID", "<> " + this.mObj.pID.ToString(), typeof(Int64).ToString(), "0");
 
-                DataTable Dt = Da.GetQuery("RecruitmentTestUser", "", Qc);
+                DataTable Dt = Do_Methods_Query.GetQuery("RecruitmentTestUser", "", Qc);
                 bool IsValid_User = !(Dt.Rows.Count > 0);
 
                 Wc = this.Txt_UserName;

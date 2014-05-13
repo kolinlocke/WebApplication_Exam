@@ -1,23 +1,15 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 using System.Data;
-using Layer01_Common;
-using Layer01_Common.Common;
-using Layer01_Common.Objects;
-using Layer02_Objects;
-using Layer02_Objects._System;
-using DataObjects_Framework;
+using DataObjects_Framework.BaseObjects;
 using DataObjects_Framework.Common;
-using DataObjects_Framework.Base;
-using DataObjects_Framework.DataAccess;
-using DataObjects_Framework.Connection;
 using DataObjects_Framework.Objects;
+using Layer02_Objects._System;
+using DataObjects_Framework.Connection;
 
 namespace Layer02_Objects.Modules_Objects
 {
-    public class ClsRights : ClsBase
+    public class ClsRights : Base
     {
         #region _Constructor
 
@@ -32,27 +24,27 @@ namespace Layer02_Objects.Modules_Objects
         #region _Methods
 
         public override DataTable List(string Condition = "", string Sort = "")
-        { return this.List((ClsQueryCondition)null, Sort); }
+        { return this.List((QueryCondition)null, Sort); }
 
-        public override DataTable List(ClsQueryCondition Condition, string Sort = "", int Top = 0, int Page = 0)
+        public override DataTable List(QueryCondition Condition, string Sort, long Top, int Page)
         {
             if (Condition == null)
-            { Condition = new ClsQueryCondition(); }
+            { Condition = new QueryCondition(); }
 
             Condition.Add("IsDeleted", "=", typeof(bool).ToString(), "0");
-            
+
             return base.List(Condition, Sort, Top, Page);
         }
 
-        public override long List_Count(ClsQueryCondition Condition = null)
+        public override long List_Count(QueryCondition Condition = null)
         {
             if (Condition == null)
-            { Condition = new ClsQueryCondition(); }
+            { Condition = new QueryCondition(); }
             Condition.Add("IsDeleted", "=", typeof(bool).ToString(), "0");
             return base.List_Count(Condition);
         }
 
-        public override void Load(ClsKeys Keys = null)
+        public override void Load(Keys Keys = null)
         {
             base.Load(Keys);
 
@@ -63,10 +55,10 @@ namespace Layer02_Objects.Modules_Objects
                 catch { }
             }
 
-            List<Do_Constants.Str_Parameters> List_Sp = new List<Do_Constants.Str_Parameters>();
-            List_Sp.Add(new Do_Constants.Str_Parameters("@ID", ID));
+            List<QueryParameter> Params = new List<QueryParameter>();
+            Params.Add(new QueryParameter("ID", ID));
             DataTable Dt;
-            Dt = new ClsConnection_SqlServer().ExecuteQuery("usp_RecruitmentTestRights_Details_Load", List_Sp).Tables[0];
+            Dt = Do_Methods_Query.ExecuteQuery("usp_RecruitmentTestRights_Details_Load", Params).Tables[0];
 
             this.AddRequired(Dt);
             this.pTableDetail_Set("RecruitmentTestRights_Details", Dt);

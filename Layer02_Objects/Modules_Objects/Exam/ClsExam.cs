@@ -1,21 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 using System.Data;
-using Layer01_Common;
-using Layer01_Common.Common;
-//using Layer01_Common.Connection;
-using Layer02_Objects;
-using Layer02_Objects._System;
-//using Layer02_Objects.DataAccess;
-//using Layer02_Objects.Modules_Base;
-//using Layer02_Objects.Modules_Base.Abstract;
-using DataObjects_Framework;
 using DataObjects_Framework.Common;
-using DataObjects_Framework.Base;
 using DataObjects_Framework.DataAccess;
-using DataObjects_Framework.Connection;
+using DataObjects_Framework.BaseObjects;
 using DataObjects_Framework.Objects;
 
 namespace Layer02_Objects.Modules_Objects.Exam
@@ -94,10 +82,7 @@ namespace Layer02_Objects.Modules_Objects.Exam
 
         public void LoadExam(Int64 ExamID, Int64 ItemsLimit)
         {
-            ClsBase Base = new ClsBase();
-            Interface_DataAccess Da = Base.pDa;
-
-            DataTable Dt_Exam = Da.GetQuery("RecruitmentTestExams", "", "RecruitmentTestExamsID = " + ExamID);
+            DataTable Dt_Exam = Do_Methods_Query.GetQuery("RecruitmentTestExams", "", "RecruitmentTestExamsID = " + ExamID);
             Int64 ApplicantID = 0;
             if (Dt_Exam.Rows.Count > 0)
             { 
@@ -107,7 +92,7 @@ namespace Layer02_Objects.Modules_Objects.Exam
             else
             { throw new Exception("Exam Data not found."); }
 
-            ClsKeys Key = new ClsKeys();
+            Keys Key = new Keys();
             Key.Add("RecruitmentTestApplicantID", ApplicantID);
 
             this.mObj_Applicant = new ClsApplicant();
@@ -164,7 +149,7 @@ namespace Layer02_Objects.Modules_Objects.Exam
 
         public void Post()
         {
-            ClsBase Obj_Base = new ClsBase();
+            Base Obj_Base = new Base();
 
             try
             {

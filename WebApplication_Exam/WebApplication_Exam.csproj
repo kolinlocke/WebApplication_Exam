@@ -42,8 +42,8 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="DataObjects_Framework">
-      <HintPath>..\Layer02_Objects\Dlls\DataObjects_Framework.dll</HintPath>
+    <Reference Include="DataObjects_Framework, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\Dlls\DataObjects_Framework.dll</HintPath>
     </Reference>
     <Reference Include="System.Data.DataSetExtensions" />
     <Reference Include="System.Net" />

@@ -1,18 +1,18 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Data;
 using System.Linq;
 using System.Text;
-using System.Data;
+using DataObjects_Framework;
+using DataObjects_Framework.BaseObjects;
+using DataObjects_Framework.Common;
+using DataObjects_Framework.Connection;
+using DataObjects_Framework.DataAccess;
+using DataObjects_Framework.Objects;
 using Layer01_Common;
 using Layer01_Common.Common;
-//using Layer01_Common.Connection;
 using Layer01_Common.Objects;
-using DataObjects_Framework;
-using DataObjects_Framework.Common;
-using DataObjects_Framework.Base;
-using DataObjects_Framework.DataAccess;
-using DataObjects_Framework.Connection;
-using DataObjects_Framework.Objects;
+using DataObjects_Framework.PreparedQueryObjects;
 
 namespace Layer02_Objects.Modules_Objects.Exam
 {
@@ -37,9 +37,9 @@ namespace Layer02_Objects.Modules_Objects.Exam
             //{ Cn.Close(); }
 
             Interface_DataAccess Da = Do_Methods.CreateDataAccess();
-            List<Do_Constants.Str_Parameters> List_Sp = new List<Do_Constants.Str_Parameters>();
-            List_Sp.Add(new Do_Constants.Str_Parameters("Question_Limit", QuestionLimit));
-            List_Sp.Add(new Do_Constants.Str_Parameters("CategoryID", CategoryID));
+            List<QueryParameter> List_Sp = new List<QueryParameter>();
+            List_Sp.Add(new QueryParameter("Question_Limit", QuestionLimit));
+            List_Sp.Add(new QueryParameter("CategoryID", CategoryID));
 
             DataSet Rv = Da.ExecuteQuery("usp_GenerateExam", List_Sp);
             return Rv;
@@ -61,8 +61,8 @@ namespace Layer02_Objects.Modules_Objects.Exam
             //{ Cn.Close(); }
 
             Interface_DataAccess Da = Do_Methods.CreateDataAccess();
-            List<Do_Constants.Str_Parameters> List_Sp = new List<Do_Constants.Str_Parameters>();
-            List_Sp.Add(new Do_Constants.Str_Parameters("ExamID", ExamID));
+            List<QueryParameter> List_Sp = new List<QueryParameter>();
+            List_Sp.Add(new QueryParameter("ExamID", ExamID));
 
             DataSet Rv = Da.ExecuteQuery("usp_LoadExam", List_Sp);
             return Rv;
@@ -79,16 +79,16 @@ namespace Layer02_Objects.Modules_Objects.Exam
             Sb_Query.Append(@" Lkp_RecruitmentTestQuestionsID = @QuestionID ");
             Sb_Query.Append(@" And IsNull(IsAnswer,0) = 1 And IsNull(IsDeleted,0) = 0");
 
-            ClsPreparedQuery Pq = new ClsPreparedQuery();
+            PreparedQuery Pq = Do_Methods.CreatePreparedQuery();
             Pq.pQuery = Sb_Query.ToString();
-            Pq.Add_Parameter("QuestionID", SqlDbType.BigInt);
+            Pq.Add_Parameter("QuestionID", Do_Constants.eParameterType.Long);
             Pq.Prepare();
 
             Int64 Score = 0;
 
             foreach (DataRow Dr in Dt_Question.Rows)
             {
-                Pq.pParameters["QuestionID"].Value = Do_Methods.IsNull(Dr["RecruitmentTestQuestionsID"], 0);
+                Pq.pParameters.GetParameter("QuestionID").Value = Do_Methods.IsNull(Dr["RecruitmentTestQuestionsID"], 0);
                 DataTable Inner_Dt = Pq.ExecuteQuery().Tables[0];
                 Int64 Ct_Answer = Inner_Dt.Rows.Count;
                 Int64 Ct_ExamAnswer = 0;

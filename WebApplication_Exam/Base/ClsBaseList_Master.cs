@@ -5,11 +5,11 @@ using System.Web.UI.WebControls;
 using Layer01_Common.Objects;
 using Layer02_Objects._System;
 using DataObjects_Framework.Common;
-using DataObjects_Framework.Base;
+using DataObjects_Framework.BaseObjects;
 using DataObjects_Framework.Objects;
 using WebApplication_Exam.UserControl;
 
-namespace WebApplication_Exam.Base
+namespace WebApplication_Exam._Base
 {
     public abstract class ClsBaseList_Master : MasterPage
     {
@@ -27,7 +27,7 @@ namespace WebApplication_Exam.Base
         #region _Variables
 
         const string CnsBase = "CnsBase";
-        protected ClsBase mObj_Base;
+        protected Base mObj_Base;
 
         const string CnsDataSource = "CnsDataSource";
         protected DataTable mDt_Datasource;
@@ -55,7 +55,7 @@ namespace WebApplication_Exam.Base
 
         public void Setup(
             Layer02_Constants.eSystem_Modules System_ModulesID
-            , ClsBase Obj_Base
+            , Base Obj_Base
             , ClsBindDefinition BindDefinition
             , bool IsSelectDetails = true
             , bool IsDelete = true
@@ -91,11 +91,10 @@ namespace WebApplication_Exam.Base
             this.mProperties.IsDelete = IsDelete;
 
             string DetailsPage = "";
-            ClsBase Base = new ClsBase();
-            ClsQueryCondition Qc = Base.pDa.CreateQueryCondition();
+            QueryCondition Qc = Do_Methods.CreateQueryCondition();
             Qc.Add("System_ModulesID", ((long)this.pSystem_ModulesID).ToString(), typeof(Int64).Name);
 
-            DataTable Dt = new ClsBase().pDa.GetQuery("System_Modules", "", Qc);
+            DataTable Dt = Do_Methods_Query.GetQuery("System_Modules", "", Qc);
             if (Dt.Rows.Count > 0)
             { DetailsPage = @"~/Page/" + Do_Methods.Convert_String(Dt.Rows[0]["Module_Details"]); }
 
@@ -124,7 +123,7 @@ namespace WebApplication_Exam.Base
                 switch (this.mProperties.DataSourceType)
                 {
                     case eDataSourceType.FromBase:
-                        this.mObj_Base = (ClsBase)this.Session[this.pObjID + CnsBase];
+                        this.mObj_Base = (Base)this.Session[this.pObjID + CnsBase];
                         break;
                     case eDataSourceType.FromDataTable:
                         this.mDt_Datasource = (DataTable)this.Session[this.pObjID + CnsDataSource];
@@ -179,12 +178,12 @@ namespace WebApplication_Exam.Base
             { return; }
 
             if (!this.pCurrentUser.CheckAccess(this.pSystem_ModulesID, Layer02_Constants.eAccessLib.eAccessLib_Delete))
-            { throw new ClsCustomException("You have no rights to delete this record."); }
+            { throw new CustomException("You have no rights to delete this record."); }
 
-            ClsKeys ClsKey = new ClsKeys();
+            Keys ClsKey = new Keys();
             ClsKey.Add(this.pProperties.BindDefinition.KeyName, Convert.ToInt64(KeyID));
 
-            ClsBase Obj_Base = (ClsBase)Activator.CreateInstance(this.mObj_Base.GetType(), new object[] { this.pCurrentUser });
+            Base Obj_Base = (Base)Activator.CreateInstance(this.mObj_Base.GetType(), new object[] { this.pCurrentUser });
             Obj_Base.Load(ClsKey);
             Obj_Base.Delete();
 
@@ -224,7 +223,7 @@ namespace WebApplication_Exam.Base
             get { return this.Master.pObjID; }
         }
 
-        public ClsBase pObj_Base
+        public Base pObj_Base
         {
             get { return this.mObj_Base; }
         }

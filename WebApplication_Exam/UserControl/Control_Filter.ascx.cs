@@ -7,7 +7,7 @@ using System.Web;
 using System.Web.UI;
 using System.Web.UI.WebControls;
 using DataObjects_Framework;
-using DataObjects_Framework.Base;
+using DataObjects_Framework.BaseObjects;
 using DataObjects_Framework.Common;
 using DataObjects_Framework.Connection;
 using DataObjects_Framework.DataAccess;
@@ -25,7 +25,7 @@ using Layer02_Objects;
 using Layer02_Objects._System;
 using Layer02_Objects.Modules_Objects;
 using Telerik.Web.UI;
-using WebApplication_Exam.Base;
+using WebApplication_Exam._Base;
 
 namespace WebApplication_Exam.UserControl
 {
@@ -33,7 +33,7 @@ namespace WebApplication_Exam.UserControl
     {
         #region _Events
 
-        public delegate void DsFiltered(ClsQueryCondition Qc);
+        public delegate void DsFiltered(QueryCondition Qc);
 
         public event DsFiltered EvFiltered;
 
@@ -235,7 +235,7 @@ namespace WebApplication_Exam.UserControl
         void FilterAdd(string FilterText)
         {
             if (this.mState.Qc == null)
-            { this.mState.Qc = (new ClsBase()).pDa.CreateQueryCondition(); }
+            { this.mState.Qc = Do_Methods.CreateQueryCondition(); }
 
             DataRow[] ArrDr = this.mProperties.Dt_Filter.Select(@"Field = '" + this.Cbo_Filter.SelectedValue + @"'");
             if (ArrDr.Length > 0)
@@ -261,7 +261,7 @@ namespace WebApplication_Exam.UserControl
 
         #region _Properties
 
-        public ClsQueryCondition pQc
+        public QueryCondition pQc
         {
             get { return this.mState.Qc; }
         }
@@ -287,7 +287,7 @@ namespace WebApplication_Exam.UserControl
     [Serializable()]
     public class Control_Filter_State
     {
-        public ClsQueryCondition Qc = null;
+        public QueryCondition Qc = null;
         public string FilterDesc = "";
     }
 

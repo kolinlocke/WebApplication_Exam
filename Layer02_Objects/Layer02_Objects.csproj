@@ -32,8 +32,8 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="DataObjects_Framework">
-      <HintPath>Dlls\DataObjects_Framework.dll</HintPath>
+    <Reference Include="DataObjects_Framework, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\Dlls\DataObjects_Framework.dll</HintPath>
     </Reference>
     <Reference Include="Microsoft.SharePoint.Client, Version=14.0.0.0, Culture=neutral, PublicKeyToken=71e9bce111e9429c, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
@@ -68,6 +68,7 @@
     <Compile Include="Modules_Objects\Exam\ClsExam_Questions_Answers.cs" />
     <Compile Include="Modules_Objects\Exam\Interface_ExamMethods.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="System\CurrentUser\ClsCurrentUserMethods.cs" />
     <Compile Include="System\Layer02_Constants.cs" />
     <Compile Include="System\CurrentUser\ClsCurrentUserMethods_SqlServer.cs" />
     <Compile Include="System\CurrentUser\ClsSysCurrentUser.cs" />

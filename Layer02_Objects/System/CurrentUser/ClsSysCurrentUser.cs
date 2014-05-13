@@ -1,25 +1,9 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 using System.Data;
-using System.Data.SqlClient;
-using Layer01_Common;
-using Layer01_Common.Common;
-//using Layer01_Common.Connection;
-using Layer01_Common.Objects;
-using Layer02_Objects;
-//using Layer02_Objects.DataAccess;
-//using Layer02_Objects.Modules_Base;
-//using Layer02_Objects.Modules_Base.Abstract;
-//using Layer02_Objects.Modules_Base.Objects;
-using Layer02_Objects._System;
-using Layer02_Objects._System.CurrentUser;
-using DataObjects_Framework;
 using DataObjects_Framework.Common;
-using DataObjects_Framework.Base;
 using DataObjects_Framework.DataAccess;
-using DataObjects_Framework.Connection;
+using Layer02_Objects._System.CurrentUser;
+using DataObjects_Framework.BaseObjects;
 using DataObjects_Framework.Objects;
 
 namespace Layer02_Objects._System
@@ -68,14 +52,11 @@ namespace Layer02_Objects._System
 
             //User Login
 
-            ClsBase Base = new ClsBase();
-            Interface_DataAccess Da = Base.pDa;
-
-            ClsQueryCondition Qc = Da.CreateQueryCondition();
+            QueryCondition Qc = Do_Methods.CreateQueryCondition();
             Qc.Add("Name", "=", (object)UserName, typeof(string).ToString(), "");
             Qc.Add("IsDeleted", "=", false, typeof(bool).ToString(), "0");
 
-            DataTable Dt = Da.GetQuery("RecruitmentTestUser", "", Qc);
+            DataTable Dt = Do_Methods_Query.GetQuery("RecruitmentTestUser", "", Qc);
             if (Dt.Rows.Count > 0)
             {
                 string Password_Check = (string)Do_Methods.IsNull(Dt.Rows[0]["Password"], "");
@@ -96,7 +77,7 @@ namespace Layer02_Objects._System
 
         public void AdministratorLogin()
         {
-            DataTable Dt = new ClsBase().pDa.GetQuery("RecruitmentTestUser", "*", "1 = 0");
+            DataTable Dt = Do_Methods_Query.GetQuery("RecruitmentTestUser", "*", "1 = 0");
             this.mDrUser = Dt.NewRow();
             this.mDrUser["RecruitmentTestUserID"] = 0;
             this.mDrUser["Name"] = "Administrator";
@@ -150,9 +131,9 @@ namespace Layer02_Objects._System
             get { return this.mIsSystemAdmin; }
         }
 
-        public Int64 pUserID
+        public Int64 pUserID 
         {
-            get { return this.mUserID; }
+            get { return this.mUserID;}
         }
 
         #endregion

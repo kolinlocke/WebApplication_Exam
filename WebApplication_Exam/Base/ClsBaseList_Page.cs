@@ -26,13 +26,13 @@ using Layer02_Objects._System;
 using Layer02_Objects.Modules_Objects;
 using DataObjects_Framework;
 using DataObjects_Framework.Common;
-using DataObjects_Framework.Base;
+using DataObjects_Framework.BaseObjects;
 using DataObjects_Framework.DataAccess;
 using DataObjects_Framework.Connection;
 using DataObjects_Framework.Objects;
 using WebApplication_Exam.UserControl;
 
-namespace WebApplication_Exam.Base
+namespace WebApplication_Exam._Base
 {
     public class ClsBaseList_Page : System.Web.UI.Page
     {
@@ -52,7 +52,7 @@ namespace WebApplication_Exam.Base
 
         public void Setup(
             Layer02_Constants.eSystem_Modules System_ModulesID
-            , ClsBase Obj_Base
+            , Base Obj_Base
             , ClsBindDefinition BindDefinition
             , bool IsSelectDetails = true
             , bool IsDelete = true)
@@ -84,7 +84,7 @@ namespace WebApplication_Exam.Base
             this.Master.Raise_Page_Load();
 
             if (!this.pCurrentUser.CheckAccess(this.pSystem_ModulesID, Layer02_Constants.eAccessLib.eAccessLib_Access))
-            { throw new ClsCustomException("You have no access to this page."); }
+            { throw new CustomException("You have no access to this page."); }
         }
 
         #endregion

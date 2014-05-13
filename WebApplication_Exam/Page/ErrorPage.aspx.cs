@@ -13,10 +13,10 @@ using Layer01_Common_Web;
 using Layer01_Common_Web.Common;
 //using Layer02_Objects.Modules_Base.Abstract;
 using WebApplication_Exam;
-using WebApplication_Exam.Base;
+using WebApplication_Exam._Base;
 using DataObjects_Framework;
 using DataObjects_Framework.Common;
-using DataObjects_Framework.Base;
+using DataObjects_Framework.BaseObjects;
 using DataObjects_Framework.DataAccess;
 using DataObjects_Framework.Connection;
 using DataObjects_Framework.Objects;
@@ -37,7 +37,7 @@ namespace WebApplication_Exam.Page
             if (Ex == null)
             { this.Response.Redirect("~/Default.aspx"); }
 
-            if (Ex is ClsCustomException)
+            if (Ex is CustomException)
             {
                 StringBuilder Sb = new StringBuilder();
                 Sb.Append("An error has occured with the following messages:" + "<br /><br />");

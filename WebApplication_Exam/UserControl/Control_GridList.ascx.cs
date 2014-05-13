@@ -7,7 +7,7 @@ using System.Web;
 using System.Web.UI;
 using System.Web.UI.WebControls;
 using DataObjects_Framework;
-using DataObjects_Framework.Base;
+using DataObjects_Framework.BaseObjects;
 using DataObjects_Framework.Common;
 using DataObjects_Framework.Connection;
 using DataObjects_Framework.DataAccess;
@@ -25,7 +25,7 @@ using Layer02_Objects;
 using Layer02_Objects._System;
 using Layer02_Objects.Modules_Objects;
 using Telerik.Web.UI;
-using WebApplication_Exam.Base;
+using WebApplication_Exam._Base;
 
 namespace WebApplication_Exam.UserControl
 {
@@ -34,7 +34,7 @@ namespace WebApplication_Exam.UserControl
         #region _Variables
         
         ClsSysCurrentUser mCurrentUser;
-        ClsBase mBase;
+        Base mBase;
         DataTable mDataSource;
         string mTableName;
 
@@ -67,7 +67,7 @@ namespace WebApplication_Exam.UserControl
 
         public void Setup_FromBase(
             ClsSysCurrentUser CurrentUser
-            , ClsBase Base
+            , Base Base
             , List<ClsBindGridColumn_Web_Telerik> BindDefinition
             , string Key = ""
             , bool AllowSort = false
@@ -200,7 +200,7 @@ namespace WebApplication_Exam.UserControl
                 switch (this.mProperties.SourceType)
                 { 
                     case eSourceType.Base:
-                        this.mBase = (ClsBase)this.Session[CnsBase + this.mObjID];
+                        this.mBase = (Base)this.Session[CnsBase + this.mObjID];
                         break;
                     case eSourceType.DataTable:
                         this.mDataSource = (DataTable)this.Session[CnsDataSource + this.mObjID];
@@ -277,7 +277,7 @@ namespace WebApplication_Exam.UserControl
                     }
                 case eSourceType.Table:
                     {
-                        Dt = new ClsBase().pDa.List(this.mTableName, this.mState.Qc, Sort, this.Grid.PageSize, this.Grid.CurrentPageIndex + 1);
+                        Dt = new Base().pDa.List(this.mTableName, this.mState.Qc, Sort, this.Grid.PageSize, this.Grid.CurrentPageIndex + 1);
                         break;
                     }
             }
@@ -342,8 +342,8 @@ namespace WebApplication_Exam.UserControl
                                 }
                             case eSourceType.Table:
                                 {
-                                    Dt = new ClsBase().pDa.List(this.mTableName, this.mState.Qc, Sb_Sort.ToString(), e.NewPageSize, this.Grid.CurrentPageIndex + 1);
-                                    this.Grid.VirtualItemCount = Convert.ToInt32(new ClsBase().pDa.List_Count(this.mTableName, this.mState.Qc));
+                                    Dt = new Base().pDa.List(this.mTableName, this.mState.Qc, Sb_Sort.ToString(), e.NewPageSize, this.Grid.CurrentPageIndex + 1);
+                                    this.Grid.VirtualItemCount = Convert.ToInt32(new Base().pDa.List_Count(this.mTableName, this.mState.Qc));
                                     break;
                                 }                                
                         }
@@ -425,8 +425,8 @@ namespace WebApplication_Exam.UserControl
                                 }
                             case eSourceType.Table:
                                 {
-                                    Dt = new ClsBase().pDa.List(this.mTableName, this.mState.Qc, Sb_Sort.ToString(), this.Grid.PageSize, e.NewPageIndex + 1);
-                                    this.Grid.VirtualItemCount = Convert.ToInt32(new ClsBase().pDa.List_Count(this.mTableName, this.mState.Qc));
+                                    Dt = new Base().pDa.List(this.mTableName, this.mState.Qc, Sb_Sort.ToString(), this.Grid.PageSize, e.NewPageIndex + 1);
+                                    this.Grid.VirtualItemCount = Convert.ToInt32(new Base().pDa.List_Count(this.mTableName, this.mState.Qc));
                                     break;
                                 }
                         }
@@ -514,7 +514,7 @@ namespace WebApplication_Exam.UserControl
                     }
                 case eSourceType.Table:
                     {
-                        Dt = new ClsBase().pDa.List(this.mTableName, this.mState.Qc, this.mState.Sort, this.mState.Top, this.mState.Page + 1);
+                        Dt = new Base().pDa.List(this.mTableName, this.mState.Qc, this.mState.Sort, this.mState.Top, this.mState.Page + 1);
                         break;
                     }
                 case eSourceType.DataTable:
@@ -547,7 +547,7 @@ namespace WebApplication_Exam.UserControl
                             if (this.mProperties.SourceType == eSourceType.Base)
                             { this.Grid.VirtualItemCount = Convert.ToInt32(this.mBase.List_Count(this.mState.Qc)); }
                             else
-                            { this.Grid.VirtualItemCount = Convert.ToInt32(new ClsBase().pDa.List_Count(this.mTableName, this.mState.Qc)); }
+                            { this.Grid.VirtualItemCount = Convert.ToInt32(new Base().pDa.List_Count(this.mTableName, this.mState.Qc)); }
 
                             this.Grid.CurrentPageIndex = this.mState.Page;
                             this.Grid.PageSize = this.mState.Top == 0 ? this.Grid.PageSize : this.mState.Top;
@@ -618,7 +618,7 @@ namespace WebApplication_Exam.UserControl
             */
         }
 
-        public void RebindGrid(ClsQueryCondition Qc = null)
+        public void RebindGrid(QueryCondition Qc = null)
         {
             this.mState.Qc = Qc;
 
@@ -676,7 +676,7 @@ namespace WebApplication_Exam.UserControl
                                 }
                             case eSourceType.Table:
                                 {
-                                    this.Grid.VirtualItemCount = Convert.ToInt32(new ClsBase().pDa.List_Count(this.mTableName, this.mState.Qc));
+                                    this.Grid.VirtualItemCount = Convert.ToInt32(new Base().pDa.List_Count(this.mTableName, this.mState.Qc));
 
                                     try
                                     {
@@ -685,7 +685,7 @@ namespace WebApplication_Exam.UserControl
                                     }
                                     catch { this.Grid.CurrentPageIndex = 0; }
 
-                                    Dt = new ClsBase().pDa.List(this.mTableName, this.mState.Qc, Sb_Sort.ToString(), this.Grid.CurrentPageIndex + 1);
+                                    Dt = new Base().pDa.List(this.mTableName, this.mState.Qc, Sb_Sort.ToString(), this.Grid.CurrentPageIndex + 1);
                                     
                                     break;
                                 }
@@ -767,7 +767,7 @@ namespace WebApplication_Exam.UserControl
         public Int32 Top = 0;
         public Int32 Page = 0;
         public List<string> List_Sort;
-        public ClsQueryCondition Qc;
+        public QueryCondition Qc;
         
         public string Sort 
         {

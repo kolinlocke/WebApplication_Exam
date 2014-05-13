@@ -1,10 +1,16 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
 using System.Data;
+using System.Linq;
 using System.Web;
 using System.Web.UI;
 using System.Web.UI.WebControls;
+using DataObjects_Framework;
+using DataObjects_Framework.BaseObjects;
+using DataObjects_Framework.Common;
+using DataObjects_Framework.Connection;
+using DataObjects_Framework.DataAccess;
+using DataObjects_Framework.Objects;
 using Layer01_Common;
 using Layer01_Common.Common;
 using Layer01_Common.Objects;
@@ -14,16 +20,8 @@ using Layer01_Common_Web_Telerik;
 using Layer01_Common_Web_Telerik.Objects;
 using Layer02_Objects;
 using Layer02_Objects._System;
-//using Layer02_Objects.Modules_Base;
-//using Layer02_Objects.Modules_Base.Abstract;
-using DataObjects_Framework;
-using DataObjects_Framework.Common;
-using DataObjects_Framework.Base;
-using DataObjects_Framework.DataAccess;
-using DataObjects_Framework.Connection;
-using DataObjects_Framework.Objects;
 using WebApplication_Exam;
-using WebApplication_Exam.Base;
+using WebApplication_Exam._Base;
 
 namespace WebApplication_Exam.Master
 {
@@ -44,7 +42,7 @@ namespace WebApplication_Exam.Master
         void Btn_New_Click(object sender, EventArgs e)
         { this.Response.Redirect(this.pProperties.DetailsPage); }
 
-        void FilterList_EvFiltered(ClsQueryCondition Qc)
+        void FilterList_EvFiltered(QueryCondition Qc)
         { this.GridList.RebindGrid(Qc); }
 
         void pGrid_ItemCommand(object sender, Telerik.Web.UI.GridCommandEventArgs e)

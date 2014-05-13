@@ -7,12 +7,12 @@ using System.Web.UI.WebControls;
 using System.Data;
 using DataObjects_Framework;
 using DataObjects_Framework.Common;
-using DataObjects_Framework.Base;
+using DataObjects_Framework.BaseObjects;
 using DataObjects_Framework.Objects;
 using DataObjects_Framework.DataAccess;
 using DataObjects_Framework.Connection;
 using WebApplication_Exam;
-using WebApplication_Exam.Base;
+using WebApplication_Exam._Base;
 using Layer01_Common;
 using Layer01_Common.Objects;
 //using Layer01_Common.Connection;
@@ -188,7 +188,7 @@ namespace WebApplication_Exam.Page
             if (this.mIsReadOnly)
             {
                 if (!this.pCurrentUser.CheckAccess(this.pSystem_ModulesID, Layer02_Constants.eAccessLib.eAccessLib_View))
-                { throw new ClsCustomException("Access Denied."); }
+                { throw new CustomException("Access Denied."); }
                 
                 this.mObj_Exam = new ClsExam();
                 this.mObj_Exam.LoadExam(this.mExamID, this.mLimit);
@@ -246,8 +246,8 @@ namespace WebApplication_Exam.Page
             
             for (Int64 Ct = 1; Ct <= this.mObj_Exam.pPages; Ct++)
             {
-                List<Do_Constants.Str_Parameters> List_Sp = new List<Do_Constants.Str_Parameters>();
-                List_Sp.Add(new Do_Constants.Str_Parameters("Page", Ct));
+                List<QueryParameter> List_Sp = new List<QueryParameter>();
+                List_Sp.Add(new QueryParameter("Page", Ct));
                 Do_Methods.AddDataRow(ref Dt_Page, List_Sp);
             }
 
@@ -407,12 +407,12 @@ namespace WebApplication_Exam.Page
 
         void ExportReport()
         {
-            ClsConnection_SqlServer Cn = new ClsConnection_SqlServer();
+            Connection_SqlServer Cn = new Connection_SqlServer();
             try
             {
                 Cn.Connect();
-                List<Do_Constants.Str_Parameters> List_Sp = new List<Do_Constants.Str_Parameters>();
-                List_Sp.Add(new Do_Constants.Str_Parameters("ExamID", Do_Methods.Convert_Int64(this.mObj_Exam.pDr_Exam["RecruitmentTestExamsID"])));
+                List<QueryParameter> List_Sp = new List<QueryParameter>();
+                List_Sp.Add(new QueryParameter("ExamID", Do_Methods.Convert_Int64(this.mObj_Exam.pDr_Exam["RecruitmentTestExamsID"])));
 
                 DataTable Dt = Cn.ExecuteQuery("usp_LoadExam_Detailed", List_Sp).Tables[0];
 

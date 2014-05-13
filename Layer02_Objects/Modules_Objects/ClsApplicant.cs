@@ -9,14 +9,14 @@ using Layer02_Objects;
 using Layer02_Objects._System;
 using DataObjects_Framework;
 using DataObjects_Framework.Common;
-using DataObjects_Framework.Base;
+using DataObjects_Framework.BaseObjects;
 using DataObjects_Framework.DataAccess;
 using DataObjects_Framework.Connection;
 using DataObjects_Framework.Objects;
 
 namespace Layer02_Objects.Modules_Objects
 {
-    public class ClsApplicant : ClsBase
+    public class ClsApplicant : Base
     {
         #region _Constructor
 

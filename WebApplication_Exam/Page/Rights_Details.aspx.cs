@@ -27,12 +27,12 @@ using Layer02_Objects._System;
 using Layer02_Objects.Modules_Objects;
 using DataObjects_Framework;
 using DataObjects_Framework.Common;
-using DataObjects_Framework.Base;
+using DataObjects_Framework.BaseObjects;
 using DataObjects_Framework.DataAccess;
 using DataObjects_Framework.Connection;
 using DataObjects_Framework.Objects;
 using WebApplication_Exam;
-using WebApplication_Exam.Base;
+using WebApplication_Exam._Base;
 using Telerik.Web.UI;
 
 namespace WebApplication_Exam.Page
@@ -67,7 +67,7 @@ namespace WebApplication_Exam.Page
             if (!this.IsPostBack) { this.SetupPage(); }
         }
 
-        void Filter_Details_EvFiltered(ClsQueryCondition Qc)
+        void Filter_Details_EvFiltered(QueryCondition Qc)
         { this.Grid_Details.RebindGrid(Qc); }
 
         void pGrid_ItemCommand(object sender, GridCommandEventArgs e)
@@ -184,12 +184,12 @@ namespace WebApplication_Exam.Page
                 , (this.Txt_Name.Text != "")
                 , "Role Name is required." + "<br />"))
             {
-                ClsQueryCondition Qc = this.mObj.pDa.CreateQueryCondition();
+                QueryCondition Qc = Do_Methods.CreateQueryCondition();
                 Qc.Add("Name", "= " + this.Txt_Name.Text, typeof(string).ToString());
                 Qc.Add("IsDeleted", "0", typeof(bool).ToString(), "0");
                 Qc.Add("RecruitmentTestUserID", "<> " + this.mObj.pID.ToString(), typeof(Int64).ToString(), "0");
-                
-                DataTable Dt = this.mObj.pDa.GetQuery("RecruitmentTestUser", "", Qc);
+
+                DataTable Dt = Do_Methods_Query.GetQuery("RecruitmentTestUser", "", Qc);
                 bool IsValid_Ex = !(Dt.Rows.Count > 0);
 
                 Wc = this.Txt_Name;

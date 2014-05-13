@@ -6,7 +6,7 @@ using Layer02_Objects;
 using Layer02_Objects.Modules_Objects;
 using Layer02_Objects._System;
 
-namespace WebApplication_Exam.Base
+namespace WebApplication_Exam._Base
 {
     public class ClsBaseMain_Page:  System.Web.UI.Page
     {

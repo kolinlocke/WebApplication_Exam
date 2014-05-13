@@ -26,15 +26,15 @@ using Layer02_Objects._System;
 using Layer02_Objects.Modules_Objects;
 using DataObjects_Framework;
 using DataObjects_Framework.Common;
-using DataObjects_Framework.Base;
+using DataObjects_Framework.BaseObjects;
 using DataObjects_Framework.DataAccess;
 using DataObjects_Framework.Connection;
 using DataObjects_Framework.Objects;
 using WebApplication_Exam;
-using WebApplication_Exam.Base;
+using WebApplication_Exam._Base;
 using Telerik.Web.UI;
 
-namespace WebApplication_Exam.Base
+namespace WebApplication_Exam._Base
 {
     public abstract class ClsBaseDetails_Master : System.Web.UI.MasterPage
     {
@@ -44,7 +44,7 @@ namespace WebApplication_Exam.Base
         protected ClsBaseDetails_Master_Properties mProperties;
         
         public const string CnsBase = "CnsBase";
-        protected ClsBase mObj_Base;
+        protected Base mObj_Base;
 
         bool mIsPageLoaded = false;
 
@@ -63,15 +63,14 @@ namespace WebApplication_Exam.Base
         public ClsBaseDetails_Master()
         { this.Load += new EventHandler(Page_Load); }
 
-        public void Setup(Layer02_Constants.eSystem_Modules System_ModulesID, ClsBase Obj_Base, string NoAccessMessage = "")
+        public void Setup(Layer02_Constants.eSystem_Modules System_ModulesID, Base Obj_Base, string NoAccessMessage = "")
         {
             this.Master.Setup(false, true, System_ModulesID);
             this.mObj_Base = Obj_Base;
             this.mProperties = new ClsBaseDetails_Master_Properties();
             this.mProperties.NoAccessMessage = NoAccessMessage == "" ? "Access Denied." : NoAccessMessage;
 
-            ClsBase Base = new ClsBase();
-            DataTable Dt = Base.pDa.GetQuery("System_Modules", "", "System_ModulesID = " + (long)System_ModulesID);
+            DataTable Dt = Do_Methods_Query.GetQuery("System_Modules", "", "System_ModulesID = " + (long)System_ModulesID);
             if (Dt.Rows.Count > 0)
             { this.mProperties.ListPage = Do_Methods.Convert_String(Dt.Rows[0]["Module_List"]); }
         }
@@ -91,7 +90,7 @@ namespace WebApplication_Exam.Base
             { this.SetupPage(); }
             else
             {
-                this.mObj_Base = (ClsBase)this.Session[CnsBase + this.pObjID];
+                this.mObj_Base = (Base)this.Session[CnsBase + this.pObjID];
                 this.mProperties = (ClsBaseDetails_Master_Properties)this.Session[this.pObjID + CnsProperties];
             }
         }
@@ -117,11 +116,11 @@ namespace WebApplication_Exam.Base
 
             ClsSysCurrentUser CurrentUser = this.Master.pCurrentUser;
             
-            ClsKeys Key = null;
+            Keys Key = null;
 
             if (ID != 0)
             {
-                Key = new ClsKeys();
+                Key = new Keys();
                 Key.Add(this.mObj_Base.pHeader_TableKey, ID);
             }
 
@@ -147,7 +146,7 @@ namespace WebApplication_Exam.Base
                         || (this.pCurrentUser.CheckAccess(pSystem_ModulesID, Layer02_Constants.eAccessLib.eAccessLib_View))
                     )
                 )
-            { throw new ClsCustomException(this.mProperties.NoAccessMessage); }
+            { throw new CustomException(this.mProperties.NoAccessMessage); }
 
             this.pIsReadOnly = !(this.pIsNew || this.pCurrentUser.CheckAccess(this.pSystem_ModulesID, Layer02_Constants.eAccessLib.eAccessLib_Edit));
         }
@@ -209,7 +208,7 @@ namespace WebApplication_Exam.Base
             get { return this.Master.pObjID; }
         }
 
-        public ClsBase pObj_Base
+        public Base pObj_Base
         {
             get { return this.mObj_Base; }
         }

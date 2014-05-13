@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Data;
 using System.Web.UI.WebControls;
-using DataObjects_Framework.Base;
+using DataObjects_Framework.BaseObjects;
 using DataObjects_Framework.Common;
 using Layer01_Common.Objects;
 using Layer01_Common_Web.Common;
@@ -148,7 +148,7 @@ namespace WebApplication_Exam.UserControl
         void BindGrid(string ControlID)
         {
             Control_Selection_DataSource DataSource = this.mProperties.List_DataSource.Find(item => item.Source_ControlID == ControlID);
-            DataTable Dt_DataSource = new ClsBase().pDa.GetQuery(DataSource.BindDefinition.DataSourceName);
+            DataTable Dt_DataSource = Do_Methods_Query.GetQuery(DataSource.BindDefinition.DataSourceName);
 
             this.Grid_Selection.pGrid.Height = new Unit((DataSource.Window_Height - 100).ToString() + "px");
 

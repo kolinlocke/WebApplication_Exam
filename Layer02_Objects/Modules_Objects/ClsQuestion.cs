@@ -1,26 +1,14 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 using System.Data;
-using DataObjects_Framework;
+using DataObjects_Framework.BaseObjects;
 using DataObjects_Framework.Common;
-using DataObjects_Framework.Base;
 using DataObjects_Framework.DataAccess;
-using DataObjects_Framework.Connection;
-using DataObjects_Framework.Objects;
-using Layer01_Common;
-//using Layer01_Common.Common;
-using Layer01_Common.Objects;
-using Layer02_Objects;
 using Layer02_Objects._System;
-//using Layer02_Objects.Modules_Base;
-//using Layer02_Objects.Modules_Base.Abstract;
-using Layer02_Objects.Modules_Objects;
+using DataObjects_Framework.Objects;
 
 namespace Layer02_Objects.Modules_Objects
 {
-    public class ClsQuestion : ClsBase
+    public class ClsQuestion : Base
     {
         #region _Variables
 
@@ -44,10 +32,10 @@ namespace Layer02_Objects.Modules_Objects
 
         public override DataTable List(string Condition = "", string Sort = "")
         {
-            return this.List((ClsQueryCondition)null);
+            return this.List((QueryCondition)null);
         }
 
-        public override DataTable List(ClsQueryCondition Condition, string Sort = "", int Top = 0, int Page = 0)
+        public override DataTable List(QueryCondition Condition, string Sort, long Top, int Page)
         {
             if (Condition == null)
             { Condition = this.mDa.CreateQueryCondition(); }
@@ -57,14 +45,13 @@ namespace Layer02_Objects.Modules_Objects
             if (!this.mCurrentUser.CheckAccess(Layer02_Constants.eSystem_Modules.Question, Layer02_Constants.eAccessLib.eAccessLib_View))
             { Condition.Add("RecruitmentTestUserID_CreatedBy", "= " + this.mCurrentUser.pUserID, typeof(Int64).ToString(), "0"); }
 
-            //return base.List(Condition, Sort, Top, Page);
             return base.mDa.List("uvw_RecruitmentTestQuestions_Ex", Condition, Sort, Top, Page);
         }
 
         public override DataTable List_Empty()
         { return base.mDa.List_Empty("uvw_RecruitmentTestQuestions_Ex"); }
 
-        public override long List_Count(ClsQueryCondition Condition = null)
+        public override long List_Count(QueryCondition Condition = null)
         {
             if (Condition == null)
             { Condition = this.mDa.CreateQueryCondition(); }
@@ -78,7 +65,7 @@ namespace Layer02_Objects.Modules_Objects
             return base.mDa.List_Count("uvw_RecruitmentTestQuestions_Ex", Condition);
         }
 
-        public override void Load(ClsKeys Keys = null)
+        public override void Load(Keys Keys = null)
         {
             base.Load(Keys);
             this.CheckIfDeleted();
@@ -88,7 +75,7 @@ namespace Layer02_Objects.Modules_Objects
             Int64 QuestionID = Convert.ToInt64(Do_Methods.IsNull(this.pDr["RecruitmentTestQuestionsID"], 0));
             if (QuestionID != 0)
             {
-                Keys = new ClsKeys();
+                Keys = new Keys();
                 Keys.Add("Lkp_RecruitmentTestQuestionsID", QuestionID);
             }
             else

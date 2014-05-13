@@ -7,7 +7,7 @@ using System.Web.UI.WebControls;
 using System.Data;
 using System.Text;
 using WebApplication_Exam;
-using WebApplication_Exam.Base;
+using WebApplication_Exam._Base;
 using Telerik.Web.UI;
 using Layer01_Common;
 using Layer01_Common.Common;
@@ -26,7 +26,7 @@ using Layer02_Objects.Modules_Objects;
 using Layer02_Objects.Modules_Objects.ExamReport;
 using DataObjects_Framework;
 using DataObjects_Framework.Common;
-using DataObjects_Framework.Base;
+using DataObjects_Framework.BaseObjects;
 using DataObjects_Framework.DataAccess;
 using DataObjects_Framework.Connection;
 using DataObjects_Framework.Objects;
@@ -79,7 +79,7 @@ namespace WebApplication_Exam.Page
             }
         }
 
-        void ListFilter_EvFiltered(ClsQueryCondition Qc)
+        void ListFilter_EvFiltered(QueryCondition Qc)
         { this.ReportGrid.RebindGrid(Qc); }
 
         #endregion
@@ -102,9 +102,7 @@ namespace WebApplication_Exam.Page
 
         void BindGrid()
         {
-            ClsBase Base = new ClsBase();
-            Interface_DataAccess Da = Base.pDa;
-            string Limit = Da.GetSystemParameter(Configuration.CnsExam_NoItemsPerPage);
+            string Limit = Do_Methods_Query.GetSystemParameter(Configuration.CnsExam_NoItemsPerPage);
 
             List<ClsBindGridColumn_Web_Telerik> List_Gct = new List<ClsBindGridColumn_Web_Telerik>();
             List_Gct.Add(new ClsBindGridColumn_Web_Telerik("DateTaken", "Date Taken", 200));

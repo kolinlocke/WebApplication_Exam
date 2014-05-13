@@ -14,12 +14,12 @@ using Layer02_Objects._System;
 using Layer02_Objects.Modules_Objects;
 using DataObjects_Framework;
 using DataObjects_Framework.Common;
-using DataObjects_Framework.Base;
+using DataObjects_Framework.BaseObjects;
 using DataObjects_Framework.DataAccess;
 using DataObjects_Framework.Connection;
 using DataObjects_Framework.Objects;
 using WebApplication_Exam;
-using WebApplication_Exam.Base;
+using WebApplication_Exam._Base;
 
 namespace WebApplication_Exam.Page
 {
@@ -67,7 +67,7 @@ namespace WebApplication_Exam.Page
                 A user who has the Delete and View Rights and the record is not approved.
             */
 
-            ClsKeys ClsKey = new ClsKeys();
+            Keys ClsKey = new Keys();
             ClsKey.Add("RecruitmentTestQuestionsID", Convert.ToInt64(KeyID));
 
             ClsQuestion Obj_Question = new ClsQuestion(this.pCurrentUser);
